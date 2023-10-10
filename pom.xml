@@ -18,8 +18,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>springboot-exceptionHandler-demo</module>
-        <module>springboot-intercepter-test</module>
+        <module>exceptionHandler-demo</module>
+        <module>encrypt-intercepter</module>
     </modules>
 
     <dependencies>
