@@ -12,6 +12,6 @@ import java.lang.annotation.*;
 @Inherited
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EncryptTransaction {
+public @interface SensitiveField {
 
 }

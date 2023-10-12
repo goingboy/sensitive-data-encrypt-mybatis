@@ -103,4 +103,14 @@ public class UserController {
         int result = userService.addUserByParam();
         return JSON.toJSONString(result);
     }
+
+    /**
+     * 插入 dao层多次操作同一对象时，解决重复加密问题
+     * @return
+     */
+    @PostMapping("/saveOrUpdate")
+    public String saveOrUpdateUser(){
+        int result = userService.saveOrUpdateUser();
+        return JSON.toJSONString(result);
+    }
 }

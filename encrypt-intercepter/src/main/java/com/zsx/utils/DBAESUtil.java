@@ -11,6 +11,12 @@ import java.util.Base64;
  * @create 2023/10/01-22:45
  **/
 public class DBAESUtil {
+
+    /**
+     * 加密标识：字符串有这个前缀就说明已经加密过
+     */
+    public static final String KEY_SENSITIVE = "sensitive_";
+
     private static final String DEFAULT_V = "6859505890402435";
     // 自己填写
     private static final String KEY = "***";

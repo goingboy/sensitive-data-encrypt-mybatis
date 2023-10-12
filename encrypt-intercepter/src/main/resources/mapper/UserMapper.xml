@@ -41,4 +41,7 @@
     </insert>
 
 
+    <update id="updateUserByPrimaryKey">
+        update user set name = #{name}, email = #{email}, phone = #{phone} where id = #{id}
+    </update>
 </mapper>

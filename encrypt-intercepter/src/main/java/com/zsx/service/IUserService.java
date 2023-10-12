@@ -31,4 +31,6 @@ public interface IUserService {
     List<User> addUserList();
 
     int addUserByParam();
+
+    int saveOrUpdateUser();
 }

@@ -1,11 +1,10 @@
 package com.zsx.intercepter;
 
 import com.baomidou.mybatisplus.core.MybatisParameterHandler;
-import com.zsx.annotation.EncryptTransaction;
+import com.zsx.annotation.SensitiveField;
 import com.zsx.annotation.SensitiveData;
 import com.zsx.utils.DBAESUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -179,7 +177,7 @@ public class ParameterInterceptor implements Interceptor {
             Parameter[] parameters = method.getParameters();
             for (int i = 0; i < pa.length; i++) {
                 for (Annotation annotation : pa[i]) {
-                    if (annotation instanceof EncryptTransaction) {
+                    if (annotation instanceof SensitiveField) {
                         if (paramNames == null) {
                             paramNames = new ArrayList<>();
                         }

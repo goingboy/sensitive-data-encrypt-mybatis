@@ -1,35 +1,41 @@
 package com.zsx.utils;
 
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.zsx.annotation.EncryptTransaction;
+import com.zsx.annotation.SensitiveField;
 import org.springframework.stereotype.Component;
-import java.io.ObjectInputStream;
+
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * @author zhousx
  * @create 2023/10/01-22:45
  **/
 @Component
-public class EncryptUtilImpl implements IEncryptUtil {
+public class EncryptImpl implements IEncryptUtil {
 
     @Override
     public <T> T encrypt(Field[] declaredFields, T paramsObject) throws IllegalAccessException {
             //取出所有被EncryptTransaction注解的字段
         for (Field field : declaredFields) {
-            EncryptTransaction encryptTransaction = field.getAnnotation(EncryptTransaction.class);
-            if (!Objects.isNull(encryptTransaction)) {
+            SensitiveField sensitiveField = field.getAnnotation(SensitiveField.class);
+            if (!Objects.isNull(sensitiveField)) {
                 field.setAccessible(true);
                 Object object = field.get(paramsObject);
                 //暂时只实现String类型的加密
                 if (object instanceof String) {
                     String value = (String) object;
-                    //加密
+
+                    //修改: 如果有标识则不加密，没有则加密并加上标识前缀。（防止重复加密）
+                    String encrypt = value;
+
+                    //开始对字段加密使用自定义的AES加密工具
                     try {
-                        field.set(paramsObject, DBAESUtil.encrypt(value));
+                        if(!value.startsWith(DBAESUtil.KEY_SENSITIVE)) {
+                            encrypt = DBAESUtil.encrypt(value);
+                            encrypt = DBAESUtil.KEY_SENSITIVE + encrypt;
+                        }
+                        //修改字段值
+                        field.set(paramsObject, encrypt);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

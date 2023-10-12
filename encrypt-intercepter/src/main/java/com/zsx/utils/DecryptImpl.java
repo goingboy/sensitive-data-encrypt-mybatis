@@ -1,6 +1,7 @@
 package com.zsx.utils;
 
-import com.zsx.annotation.EncryptTransaction;
+import com.zsx.annotation.SensitiveField;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -25,8 +26,8 @@ public class DecryptImpl implements IDecryptUtil {
         Field[] declaredFields = resultClass.getDeclaredFields();
         for (Field field : declaredFields) {
             //取出所有被DecryptTransaction注解的字段
-            EncryptTransaction encryptTransaction = field.getAnnotation(EncryptTransaction.class);
-            if (!Objects.isNull(encryptTransaction)) {
+            SensitiveField sensitiveField = field.getAnnotation(SensitiveField.class);
+            if (!Objects.isNull(sensitiveField)) {
                 field.setAccessible(true);
                 Object object = field.get(result);
                 //String的解密
@@ -34,7 +35,14 @@ public class DecryptImpl implements IDecryptUtil {
                     String value = (String) object;
                     //对注解的字段进行逐一解密
                     try {
-                        field.set(result, DBAESUtil.decrypt(value));
+                        //修改：没有标识则不解密(防止重复解密)
+                        if(value.startsWith(DBAESUtil.KEY_SENSITIVE)) {
+                            value = value.substring(10);
+                            value = DBAESUtil.decrypt(value);
+                        }
+                        //修改字段值
+                        field.set(result, value);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

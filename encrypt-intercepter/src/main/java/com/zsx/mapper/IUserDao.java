@@ -2,8 +2,7 @@ package com.zsx.mapper;
 
 
 
-import com.zsx.annotation.EncryptTransaction;
-import com.zsx.annotation.SensitiveData;
+import com.zsx.annotation.SensitiveField;
 import com.zsx.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -38,7 +37,7 @@ public interface IUserDao {
      * @param phone
      * @return
      */
-    List<User> getUserByPhone(@EncryptTransaction @Param("phone") String phone);
+    List<User> getUserByPhone(@SensitiveField @Param("phone") String phone);
 
     /**
      * 测试查询 传参为对象 对象中的phone参数需要拦截器进行加密才能查询
@@ -69,5 +68,12 @@ public interface IUserDao {
      * @param phone
      * @return
      */
-    int insertUserByParam(@Param("name") String name, @EncryptTransaction @Param("email") String email, @EncryptTransaction @Param("phone") String phone);
+    int insertUserByParam(@Param("name") String name, @SensitiveField @Param("email") String email, @SensitiveField @Param("phone") String phone);
+
+    /**
+     * 测试更新
+     * @param user
+     * @return
+     */
+    int updateUserByPrimaryKey(User user);
 }

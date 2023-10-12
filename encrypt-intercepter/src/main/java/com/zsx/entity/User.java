@@ -1,13 +1,13 @@
 package com.zsx.entity;
 
-import com.zsx.annotation.EncryptTransaction;
+import com.zsx.annotation.SensitiveField;
 import com.zsx.annotation.SensitiveData;
 import lombok.*;
 import java.io.Serializable;
 
 
 /**
- * @author lenovo
+ * @author zhousx
  */
 @With
 @Builder
@@ -20,10 +20,10 @@ public class User implements Serializable {
     private String name;
 
     // 表明对该字段进行加密
-    @EncryptTransaction
+    @SensitiveField
     private String email;
     // 表明对该字段进行加密
-    @EncryptTransaction
+    @SensitiveField
     private String phone;
 
 }
