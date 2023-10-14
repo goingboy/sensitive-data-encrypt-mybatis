@@ -20,6 +20,7 @@
     <modules>
         <module>exceptionHandler-demo</module>
         <module>encrypt-intercepter</module>
+        <module>encrypt-typeHandler</module>
     </modules>
 
     <dependencies>

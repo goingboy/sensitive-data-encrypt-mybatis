@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zsx.dao.UserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zsx.entity.User">
+        <id column="id" property="id" />
+        <result column="name" property="name"/>
+        <result column="phone" property="phone" typeHandler="com.zsx.common.CryptoTypeHandler" />
+    </resultMap>
+
+    <insert id="insertEncrypt">
+        insert into user (id, name, phone)
+        values (#{id}, #{name}, #{phone,typeHandler=com.zsx.common.CryptoTypeHandler})
+    </insert>
+
+    <select id="findByName" resultMap="BaseResultMap">
+        select id, name, phone
+        from user
+        where name = #{name}
+    </select>
+
+    <select id="findByPhone" resultMap="BaseResultMap">
+        select id, name, phone
+        from user
+        where phone = #{phone,typeHandler=com.zsx.common.CryptoTypeHandler}
+    </select>
+
+    <select id="findByPhone2" resultMap="BaseResultMap">
+        select id, name, phone
+        from user
+        where phone = #{phone,typeHandler=com.zsx.common.CryptoTypeHandler}
+    </select>
+
+</mapper>
